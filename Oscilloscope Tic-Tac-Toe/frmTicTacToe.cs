@@ -42,13 +42,14 @@ namespace Oscilloscope_Tic_Tac_Toe
             if (!TicTacToeGame.gameEnded || e.KeyCode == Keys.R)
             {
                 // Updates the board to match player's movement
-                TicTacToeGame.playerMove(e);
+                if (TicTacToeGame.playerMove(e))
+                {
+                    List<Point> totalPoints = new List<Point>();
+                    totalPoints.AddRange(TicTacToeGame.board);
+                    totalPoints.AddRange(TicTacToeGame.player);
 
-                List<Point> totalPoints = new List<Point>();
-                totalPoints.AddRange(TicTacToeGame.board);
-                totalPoints.AddRange(TicTacToeGame.player);
-
-                WavePlayer.BuildAndPlayWaveAsync(totalPoints);
+                    WavePlayer.BuildAndPlayWaveAsync(totalPoints);
+                }
             }
         }
     }

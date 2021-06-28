@@ -25,7 +25,7 @@ namespace Oscilloscope_Tic_Tac_Toe
             ResetGame();
         }
 
-        public void playerMove(KeyEventArgs e)
+        public bool playerMove(KeyEventArgs e)
         {
             player.Clear();
             if (e.KeyCode != Keys.R && !gameEnded)
@@ -37,11 +37,9 @@ namespace Oscilloscope_Tic_Tac_Toe
                 else if (e.KeyCode == Keys.Left && PlayerPosition.X - 30 > -34) PlayerPosition.X -= 30;
                 else if (e.KeyCode == Keys.Right && PlayerPosition.X + 30 < 34) PlayerPosition.X += 30;
 
-                // gives the player their new coordinates
-                if (!gameEnded) player.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, true)); // character's piece
 
                 // Place the player's piece on the board if another is not already there
-                if (e.KeyCode == Keys.Space && BoardMap[(PlayerPosition.X + 30) / 30, (PlayerPosition.Y + 30) / 30] == PlayerMarker.None)
+                else if (e.KeyCode == Keys.Space && BoardMap[(PlayerPosition.X + 30) / 30, (PlayerPosition.Y + 30) / 30] == PlayerMarker.None)
                 {
                     // adds the player's piece to the board
                     board.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, false));
@@ -65,8 +63,17 @@ namespace Oscilloscope_Tic_Tac_Toe
                         player.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, true));
                     }
                 }
+                else
+                {
+                    return false; // The player cannot place a piece over top of another player's
+                }
+
+                // gives the player their new coordinates
+                if (!gameEnded) player.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, true)); // character's piece
             }
             else if (e.KeyCode == Keys.R) ResetGame();
+
+            return true;
         }
 
         public void ResetGame()
@@ -102,7 +109,7 @@ namespace Oscilloscope_Tic_Tac_Toe
         }
 
         // CHECK END OF GAME
-        public Boolean checkGameEnd()
+        public bool checkGameEnd()
         {
             // Detects a victory in any columns
             for (int c = 0; c <= 2; c++)
@@ -138,7 +145,7 @@ namespace Oscilloscope_Tic_Tac_Toe
                 return true;
             }
 
-            Boolean e = true;
+            bool e = true;
             // Detects a draw
             for (int i = 0; i <= 2; i++) for (int j = 0; j <= 2; j++) if (BoardMap[i, j] == 0) e = false;
             
