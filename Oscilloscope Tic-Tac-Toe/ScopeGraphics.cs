@@ -9,8 +9,16 @@ namespace Oscilloscope_Tic_Tac_Toe
 {
     class ScopeGraphics
     {
-        // Returns a character based on the player's turn,
-        // whether or not they're moving, and positioning offset
+
+        /// <summary>
+        /// Returns a character based on the player's turn,
+        /// whether or not they're moving, and positioning offset
+        /// </summary>
+        /// <param name="turn">The player whose turn it is.</param>
+        /// <param name="X">The X position on the board.</param>
+        /// <param name="Y">The Y position on the board.</param>
+        /// <param name="move">Tells if that piece is the one that the player is currently moving.</param>
+        /// <returns></returns>
         public List<Point> getChar(int turn, int X, int Y, Boolean move) {
             List<Point> points = new List<Point>();
 
@@ -22,7 +30,9 @@ namespace Oscilloscope_Tic_Tac_Toe
             return points;
         }
 
-        // Returns X character based on offset
+        /// <summary>
+        /// Returns X character based on offset
+        /// </summary>
         public List<Point> getX(int X, int Y)
         {
             List<Point> points = new List<Point>();
@@ -44,7 +54,9 @@ namespace Oscilloscope_Tic_Tac_Toe
             return points;
         }
 
-        // Returns O character based on offset
+        /// <summary>
+        /// Returns O character based on offset
+        /// </summary>
         public List<Point> getO(int X, int Y)
         {
             List<Point> points = new List<Point>();
@@ -54,8 +66,10 @@ namespace Oscilloscope_Tic_Tac_Toe
 
             return points;
         }
-        
-        // Returns square based on offset
+
+        /// <summary>
+        /// Returns square based on offset. This is used to indicate a piece that the player is currently moving.
+        /// </summary>
         public List<Point> getBox(int X, int Y)
         {
             List<Point> points = new List<Point>();
@@ -69,7 +83,10 @@ namespace Oscilloscope_Tic_Tac_Toe
             return points;
         }
 
-        // Returns a blank game board
+        /// <summary>
+        /// Returns a blank game board.
+        /// </summary>
+        /// <returns></returns>
         public List<Point> getBoard()
         {
             List<Point> points = new List<Point>();
@@ -92,7 +109,12 @@ namespace Oscilloscope_Tic_Tac_Toe
             return points;
         }
 
-        // Returns a victory line based on offset and orientation
+        /// <summary>
+        /// Will return a line across the screen based on parameters.
+        /// </summary>
+        /// <param name="p">The position the victory line is in.</param>
+        /// <param name="o">The orientation the victory line is in.</param>
+        /// <returns></returns>
         public List<Point> getVictoryLine(int p, int o)
         {
             List<Point> points = new List<Point>(); 

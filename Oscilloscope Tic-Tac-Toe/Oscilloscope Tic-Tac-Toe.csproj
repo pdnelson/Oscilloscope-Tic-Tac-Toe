@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game.cs" />
+    <Compile Include="OscilloscopeWavePlayer.cs" />
     <Compile Include="ScopeGraphics.cs" />
     <Compile Include="frmTicTacToe.cs">
       <SubType>Form</SubType>

@@ -11,13 +11,13 @@ namespace Oscilloscope_Tic_Tac_Toe
     class Game
     {
         ScopeGraphics sg;
-        private List<Point> board;
-        private List<Point> player;
+        public List<Point> board { get; set; }
+        public List<Point> player { get; set; }
         private int[,] simBoard;
         private int oX;
         private int oY;
         private int turn;
-        private Boolean gameEnded;
+        public bool gameEnded { get; set; }
 
         public Game()
         {
@@ -35,7 +35,6 @@ namespace Oscilloscope_Tic_Tac_Toe
             player.AddRange(sg.getChar(1, 0, 0, true));
         }
 
-        // PLAYER MOVE
         public void playerMove(KeyEventArgs e)
         {
             player.Clear();
@@ -80,7 +79,6 @@ namespace Oscilloscope_Tic_Tac_Toe
             else if (e.KeyCode == Keys.R) resetGame();
         }
 
-        // RESET GAME
         public void resetGame()
         {
             board.Clear();
@@ -102,30 +100,16 @@ namespace Oscilloscope_Tic_Tac_Toe
             gameEnded = false;
         }
 
-        // CHANGE TURN
-        public void changeTurn()
+        private void changeTurn()
         {
             if (turn == 1) turn++;
             else turn--;
         }
 
-        // RETURN PLAYER TO ORIGIN
-        public void returnPlayerToOrigin()
+        private void returnPlayerToOrigin()
         {
             oX = 0;
             oY = 0;
-        }
-
-        // GET GAME BOARD
-        public List<Point> getBoard()
-        {
-            return board;
-        }
-
-        // GET PLAYER
-        public List<Point> getPlayer()
-        {
-            return player;
         }
 
         // CHECK END OF GAME
@@ -171,12 +155,6 @@ namespace Oscilloscope_Tic_Tac_Toe
             
             // If it reaches this, there is a draw
             return e;
-        }
-
-        // RETURN GAME STATUS
-        public Boolean getGameStatus()
-        {
-            return gameEnded;
         }
     }
 }

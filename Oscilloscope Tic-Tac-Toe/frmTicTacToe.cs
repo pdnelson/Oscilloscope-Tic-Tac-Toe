@@ -17,7 +17,7 @@ namespace Oscilloscope_Tic_Tac_Toe
         // GLOBAL VARIABLES
         BackgroundWorker displayWorker;
         SoundPlayer display;
-        Game g;
+        Game TicTacToeGame;
 
         // INITIALIZATION
         public frmTicTacToe()
@@ -25,7 +25,7 @@ namespace Oscilloscope_Tic_Tac_Toe
             InitializeComponent();
 
             // Initialize game
-            g = new Game();
+            TicTacToeGame = new Game();
 
             // game display worker
             displayWorker = new BackgroundWorker();
@@ -44,13 +44,13 @@ namespace Oscilloscope_Tic_Tac_Toe
         {
 
             // Doesn't let the user enter anything else if the game has ended, unless it is the reset function
-            if (!g.getGameStatus() || e.KeyCode == Keys.R)
+            if (!TicTacToeGame.gameEnded || e.KeyCode == Keys.R)
             {
                 // First stops the wave
                 display.Stop();
 
                 // Updates the board to match player's movement
-                g.playerMove(e);
+                TicTacToeGame.playerMove(e);
 
                 // Plays the new wave
                 if (!displayWorker.IsBusy) displayWorker.RunWorkerAsync();
@@ -155,7 +155,7 @@ namespace Oscilloscope_Tic_Tac_Toe
         // this is always running in the background
         public void displayWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            genWave(g.getBoard(), g.getPlayer());
+            genWave(TicTacToeGame.board, TicTacToeGame.player);
         }
     }
 }

@@ -40,7 +40,7 @@
             this.lblInstructions.ForeColor = System.Drawing.Color.White;
             this.lblInstructions.Location = new System.Drawing.Point(12, 8);
             this.lblInstructions.Name = "lblInstructions";
-            this.lblInstructions.Size = new System.Drawing.Size(383, 242);
+            this.lblInstructions.Size = new System.Drawing.Size(383, 209);
             this.lblInstructions.TabIndex = 0;
             this.lblInstructions.Text = resources.GetString("lblInstructions.Text");
             // 
@@ -49,7 +49,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(409, 259);
+            this.ClientSize = new System.Drawing.Size(409, 235);
             this.Controls.Add(this.lblInstructions);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
