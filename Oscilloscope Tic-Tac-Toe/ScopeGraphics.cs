@@ -110,7 +110,7 @@ namespace Oscilloscope_Tic_Tac_Toe
         }
 
         /// <summary>
-        /// Will return a line across the screen based on parameters.
+        /// Will return a line across the screen indicating a victory.
         /// </summary>
         /// <param name="p">The position the victory line is in.</param>
         /// <param name="o">The orientation the victory line is in.</param>

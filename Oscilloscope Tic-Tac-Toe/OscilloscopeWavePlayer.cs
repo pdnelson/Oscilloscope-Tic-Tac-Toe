@@ -6,7 +6,7 @@ using System.Media;
 using System.Text;
 using System.Threading;
 
-namespace Oscilloscope_Clock
+namespace Oscilloscope_Tic_Tac_Toe
 {
     public class OscilloscopeWavePlayer : IDisposable
     {
@@ -14,11 +14,15 @@ namespace Oscilloscope_Clock
         private MemoryStream MS;
         private BinaryWriter BW;
         private Thread PlayWaveThread;
-        public bool IsPlaying;
+        public bool IsPlaying { get; set; }
+        public int ImageAmplificationX { get; set; }
+        public int ImageAmplificationY { get; set; }
 
         public OscilloscopeWavePlayer()
         {
             IsPlaying = false;
+            ImageAmplificationX = 1;
+            ImageAmplificationY = 1;
         }
 
         /// <summary>
@@ -73,8 +77,8 @@ namespace Oscilloscope_Clock
             // Write each point to the Wave file
             foreach (Point sample in points)
             {
-                BW.Write(Convert.ToInt16(sample.Y));
-                BW.Write(Convert.ToInt16(sample.X));
+                BW.Write(Convert.ToInt16(ImageAmplificationY * sample.Y));
+                BW.Write(Convert.ToInt16(ImageAmplificationX * sample.X));
             }
 
             // Prepare Wave to be played
