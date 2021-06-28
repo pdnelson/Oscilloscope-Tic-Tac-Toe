@@ -65,9 +65,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game.cs" />
+    <Compile Include="PlayerMarker.cs" />
+    <Compile Include="TicTacToe.cs" />
     <Compile Include="OscilloscopeWavePlayer.cs" />
-    <Compile Include="ScopeGraphics.cs" />
+    <Compile Include="TicTacToeGraphics.cs" />
     <Compile Include="frmTicTacToe.cs">
       <SubType>Form</SubType>
     </Compile>

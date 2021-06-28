@@ -14,13 +14,13 @@ namespace Oscilloscope_Tic_Tac_Toe
 {
     public partial class frmTicTacToe : Form
     {
-        Game TicTacToeGame;
+        TicTacToe TicTacToeGame;
         OscilloscopeWavePlayer WavePlayer;
 
         public frmTicTacToe()
         {
             InitializeComponent();
-            TicTacToeGame = new Game();
+            TicTacToeGame = new TicTacToe();
             WavePlayer = new OscilloscopeWavePlayer();
             WavePlayer.ImageAmplificationX = 500;
             WavePlayer.ImageAmplificationY = 500;

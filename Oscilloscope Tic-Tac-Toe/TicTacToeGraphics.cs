@@ -7,25 +7,33 @@ using System.Drawing;
 
 namespace Oscilloscope_Tic_Tac_Toe
 {
-    class ScopeGraphics
+    class TicTacToeGraphics
     {
 
         /// <summary>
         /// Returns a character based on the player's turn,
         /// whether or not they're moving, and positioning offset
         /// </summary>
-        /// <param name="turn">The player whose turn it is.</param>
-        /// <param name="X">The X position on the board.</param>
-        /// <param name="Y">The Y position on the board.</param>
-        /// <param name="move">Tells if that piece is the one that the player is currently moving.</param>
+        /// <param name="playerTurn">The player whose turn it is.</param>
+        /// <param name="playerPosition">The position the player's piece is on the board.</param>
+        /// <param name="playerMoving">Tells if that piece is the one that the player is currently moving.</param>
         /// <returns></returns>
-        public List<Point> getChar(int turn, int X, int Y, Boolean move) {
+        public List<Point> GetPlayerPiece(PlayerMarker playerTurn, Point playerPosition, bool playerMoving) {
             List<Point> points = new List<Point>();
 
-            if (turn == 1) points.AddRange(getX(X, Y));
-            else if (turn == 2) points.AddRange(getO(X, Y));
+            if (playerTurn == PlayerMarker.PlayerX)
+            {
+                points.AddRange(GetXPoints(playerPosition.X, playerPosition.Y));
+            }
+            else if (playerTurn == PlayerMarker.PlayerO)
+            {
+                points.AddRange(GetOPoints(playerPosition.X, playerPosition.Y));
+            }
 
-            if (move) points.AddRange(getBox(X, Y));
+            if (playerMoving)
+            {
+                points.AddRange(GetSquarePoints(playerPosition.X, playerPosition.Y));
+            }
 
             return points;
         }
@@ -33,7 +41,7 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// <summary>
         /// Returns X character based on offset
         /// </summary>
-        public List<Point> getX(int X, int Y)
+        public List<Point> GetXPoints(int X, int Y)
         {
             List<Point> points = new List<Point>();
             // x
@@ -41,15 +49,15 @@ namespace Oscilloscope_Tic_Tac_Toe
             for (int i = -11; i < 11; i++) points.Add(new Point(i + X, i + Y));
 
             // makes it so that the lines don't get in the way as much
-            points.Add(new Point(0 + X, 0 + Y));
-            points.Add(new Point(0 + X, 0 + Y));
+            points.Add(new Point(X, Y));
+            points.Add(new Point(X, Y));
 
             // draw the other half of x
             for (int i = 11; i > -11; i--) points.Add(new Point(i + X, -1 * i + Y));
 
             // makes it so that the lines don't get in the way as much
-            points.Add(new Point(0 + X, 0 + Y));
-            points.Add(new Point(0 + X, 0 + Y));
+            points.Add(new Point(X, Y));
+            points.Add(new Point(X, Y));
 
             return points;
         }
@@ -57,7 +65,7 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// <summary>
         /// Returns O character based on offset
         /// </summary>
-        public List<Point> getO(int X, int Y)
+        public List<Point> GetOPoints(int X, int Y)
         {
             List<Point> points = new List<Point>();
 
@@ -70,7 +78,7 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// <summary>
         /// Returns square based on offset. This is used to indicate a piece that the player is currently moving.
         /// </summary>
-        public List<Point> getBox(int X, int Y)
+        public List<Point> GetSquarePoints(int X, int Y)
         {
             List<Point> points = new List<Point>();
 
@@ -87,7 +95,7 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// Returns a blank game board.
         /// </summary>
         /// <returns></returns>
-        public List<Point> getBoard()
+        public List<Point> GetEmptyBoardPoints()
         {
             List<Point> points = new List<Point>();
 
@@ -115,7 +123,7 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// <param name="p">The position the victory line is in.</param>
         /// <param name="o">The orientation the victory line is in.</param>
         /// <returns></returns>
-        public List<Point> getVictoryLine(int p, int o)
+        public List<Point> GetVictoryLinePoints(int p, int o)
         {
             List<Point> points = new List<Point>(); 
 
