@@ -37,22 +37,21 @@ namespace Oscilloscope_Tic_Tac_Toe
             {
                 PlayerGraphics.Clear();
 
-                // sets offset position according to user's input
-                if (keyPress == Keys.Down && PlayerPosition.Y - 30 > -31) PlayerPosition.Y -= 30;
-                else if (keyPress == Keys.Up && PlayerPosition.Y + 30 < 31) PlayerPosition.Y += 30;
-                else if (keyPress == Keys.Left && PlayerPosition.X - 30 > -34) PlayerPosition.X -= 30;
-                else if (keyPress == Keys.Right && PlayerPosition.X + 30 < 34) PlayerPosition.X += 30;
-
+                // Validate that the user's movement is within the bounds of the board
+                if      (keyPress == Keys.Down  && PlayerPosition.Y - 1 >= 0)   PlayerPosition.Y -= 1;
+                else if (keyPress == Keys.Up    && PlayerPosition.Y + 1 <= 2)   PlayerPosition.Y += 1;
+                else if (keyPress == Keys.Left  && PlayerPosition.X - 1 >= 0)   PlayerPosition.X -= 1;
+                else if (keyPress == Keys.Right && PlayerPosition.X + 1 <= 2)   PlayerPosition.X += 1;
 
                 // Place the player's piece on the board if another is not already there
-                else if (keyPress == Keys.Space && BoardMap[(PlayerPosition.X + 30) / 30, (PlayerPosition.Y + 30) / 30] == PlayerMarker.None)
+                else if (keyPress == Keys.Space && BoardMap[PlayerPosition.X, PlayerPosition.Y] == PlayerMarker.None)
                 {
                     // adds the player's piece to the board
                     BoardGraphics.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, false));
 
                     PlayerGraphics.Clear();
 
-                    BoardMap[(PlayerPosition.X + 30) / 30, (PlayerPosition.Y + 30) / 30] = PlayerTurn;
+                    BoardMap[PlayerPosition.X, PlayerPosition.Y] = PlayerTurn;
 
                     // checks that the game has ended
                     gameEnded = CheckGameStatus();
@@ -60,7 +59,7 @@ namespace Oscilloscope_Tic_Tac_Toe
                     if (!gameEnded)
                     {
                         // start next player's move in the middle of the screen
-                        PlayerPosition = new Point(0, 0);
+                        PlayerPosition = new Point(1, 1);
 
                         // changes to player 2
                         ChangePlayerTurns();
@@ -89,7 +88,7 @@ namespace Oscilloscope_Tic_Tac_Toe
             BoardGraphics.Clear();
             BoardGraphics.AddRange(GetEmptyBoardPoints());
             PlayerTurn = PlayerMarker.PlayerX;
-            PlayerPosition = new Point(0, 0);
+            PlayerPosition = new Point(1, 1);
             PlayerGraphics.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, true));
 
             // Set board array to all zeroes

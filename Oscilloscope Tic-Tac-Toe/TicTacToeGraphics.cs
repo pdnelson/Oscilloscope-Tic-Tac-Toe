@@ -21,18 +21,22 @@ namespace Oscilloscope_Tic_Tac_Toe
         public List<Point> GetPlayerPiece(PlayerMarker playerTurn, Point playerPosition, bool playerMoving) {
             List<Point> points = new List<Point>();
 
+            /**
+             * (position - 1) * 30 is to account for the offset between the board position and position to draw the characters on the oscilloscope
+             **/
+
             if (playerTurn == PlayerMarker.PlayerX)
             {
-                points.AddRange(GetXPoints(playerPosition.X, playerPosition.Y));
+                points.AddRange(GetXPoints((playerPosition.X - 1) * 30, (playerPosition.Y - 1) * 30));
             }
             else if (playerTurn == PlayerMarker.PlayerO)
             {
-                points.AddRange(GetOPoints(playerPosition.X, playerPosition.Y));
+                points.AddRange(GetOPoints((playerPosition.X - 1) * 30, (playerPosition.Y - 1) * 30));
             }
 
             if (playerMoving)
             {
-                points.AddRange(GetSquarePoints(playerPosition.X, playerPosition.Y));
+                points.AddRange(GetSquarePoints((playerPosition.X - 1) * 30, (playerPosition.Y - 1) * 30));
             }
 
             return points;
@@ -41,23 +45,23 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// <summary>
         /// Returns X character based on offset
         /// </summary>
-        public List<Point> GetXPoints(int X, int Y)
+        public List<Point> GetXPoints(int scopePositionX, int scopePositionY)
         {
             List<Point> points = new List<Point>();
             // x
             // draw half of x
-            for (int i = -11; i < 11; i++) points.Add(new Point(i + X, i + Y));
+            for (int i = -11; i < 11; i++) points.Add(new Point(i + scopePositionX, i + scopePositionY));
 
             // makes it so that the lines don't get in the way as much
-            points.Add(new Point(X, Y));
-            points.Add(new Point(X, Y));
+            points.Add(new Point(scopePositionX, scopePositionY));
+            points.Add(new Point(scopePositionX, scopePositionY));
 
             // draw the other half of x
-            for (int i = 11; i > -11; i--) points.Add(new Point(i + X, -1 * i + Y));
+            for (int i = 11; i > -11; i--) points.Add(new Point(i + scopePositionX, -1 * i + scopePositionY));
 
             // makes it so that the lines don't get in the way as much
-            points.Add(new Point(X, Y));
-            points.Add(new Point(X, Y));
+            points.Add(new Point(scopePositionX, scopePositionY));
+            points.Add(new Point(scopePositionX, scopePositionY));
 
             return points;
         }
@@ -65,12 +69,12 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// <summary>
         /// Returns O character based on offset
         /// </summary>
-        public List<Point> GetOPoints(int X, int Y)
+        public List<Point> GetOPoints(int scopePositionX, int scopePositionY)
         {
             List<Point> points = new List<Point>();
 
             // draws a circle
-            for (int i = -30; i < 10; i++) points.Add(new Point((int)(11 * Math.Cos(i) + X), (int)(11 * Math.Sin(i) + Y)));
+            for (int i = -30; i < 10; i++) points.Add(new Point((int)(11 * Math.Cos(i) + scopePositionX), (int)(11 * Math.Sin(i) + scopePositionY)));
 
             return points;
         }
@@ -78,15 +82,15 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// <summary>
         /// Returns square based on offset. This is used to indicate a piece that the player is currently moving.
         /// </summary>
-        public List<Point> GetSquarePoints(int X, int Y)
+        public List<Point> GetSquarePoints(int scopePositionX, int scopePositionY)
         {
             List<Point> points = new List<Point>();
 
-            for (int i = 11; i > -11; i--) points.Add(new Point(i + X, 11 + Y));
-            for (int i = 11; i > -11; i--) points.Add(new Point(-11 + X, i + Y));
-            for (int i = -11; i < 11; i++) points.Add(new Point(i + X, -11 + Y));
-            for (int i = -11; i < 11; i++) points.Add(new Point(11 + X, i + Y));
-            for (int i = 11; i > -11; i--) points.Add(new Point(i + X, 11 + Y));
+            for (int i = 11; i > -11; i--) points.Add(new Point(i + scopePositionX, 11 + scopePositionY));
+            for (int i = 11; i > -11; i--) points.Add(new Point(-11 + scopePositionX, i + scopePositionY));
+            for (int i = -11; i < 11; i++) points.Add(new Point(i + scopePositionX, -11 + scopePositionY));
+            for (int i = -11; i < 11; i++) points.Add(new Point(11 + scopePositionX, i + scopePositionY));
+            for (int i = 11; i > -11; i--) points.Add(new Point(i + scopePositionX, 11 + scopePositionY));
 
             return points;
         }
@@ -120,24 +124,24 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// <summary>
         /// Will return a line across the screen indicating a victory.
         /// </summary>
-        /// <param name="p">The position the victory line is in.</param>
-        /// <param name="o">The orientation the victory line is in.</param>
+        /// <param name="position">The position the victory line is in.</param>
+        /// <param name="orientation">The orientation the victory line is in.</param>
         /// <returns></returns>
-        public List<Point> GetVictoryLinePoints(int p, int o)
+        public List<Point> GetVictoryLinePoints(int position, int orientation)
         {
             List<Point> points = new List<Point>(); 
 
             // Vertical
-            if (o == 0) for (int i = -50; i < 50; i++) points.Add(new Point((p * 30) - 30, i));
+            if (orientation == 0) for (int i = -50; i < 50; i++) points.Add(new Point((position * 30) - 30, i));
 
             // Horizontal
-            else if (o == 1) for (int i = -50; i < 50; i++) points.Add(new Point(i, (p * 30) - 30));
+            else if (orientation == 1) for (int i = -50; i < 50; i++) points.Add(new Point(i, (position * 30) - 30));
                 
             // Diagonal Bottom to Top
-            else if (o == 3) for (int i = -50; i < 50; i++) points.Add(new Point( -1 * i, i));
+            else if (orientation == 3) for (int i = -50; i < 50; i++) points.Add(new Point( -1 * i, i));
 
             // Diagonal Top to Bottom
-            else if (o == 2) for (int i = -50; i < 50; i++) points.Add(new Point(i, i));
+            else if (orientation == 2) for (int i = -50; i < 50; i++) points.Add(new Point(i, i));
 
             return points;
         }
