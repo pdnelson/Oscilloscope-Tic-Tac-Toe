@@ -124,46 +124,52 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// <returns>true if the game has ended; false otherwise</returns>
         private bool CheckGameStatus()
         {
-            // Detects a victory in any columns
+            // Check all rows for a vertical victory
             for (int c = 0; c <= 2; c++)
             {
                 if (BoardMap[c,0] != 0 && BoardMap[c, 0] == BoardMap[c, 1] && BoardMap[c, 0] == BoardMap[c, 2])
                 {
-                    // Adds the victory line to the board display
-                    BoardGraphics.AddRange(GetVictoryLinePoints(c, 0));
+                    BoardGraphics.AddRange(GetVictoryLinePoints(c, VictoryOrientation.Vertical));
                     return true;
                 }
             }
 
-            // Detects a victory in any rows
+            // Check all rows for a horizontal victory
             for (int r = 0; r <= 2; r++)
             {
                 if (BoardMap[0, r] != 0 && BoardMap[0, r] == BoardMap[1, r] && BoardMap[0, r] == BoardMap[2, r])
                 {
-                    // Adds the victory line to the board display
-                    BoardGraphics.AddRange(GetVictoryLinePoints(r, 1));
+                    BoardGraphics.AddRange(GetVictoryLinePoints(r, VictoryOrientation.Horizontal));
                     return true;
                 }
             }
 
-            // Detects a diagonal victory
+            // Check for a diagonal victory (top to bottom)
             if (BoardMap[0, 0] != 0 && BoardMap[0, 0] == BoardMap[1, 1] && BoardMap[0, 0] == BoardMap[2, 2])
             {
-                BoardGraphics.AddRange(GetVictoryLinePoints(0, 2));
-                return true;
-            }
-            else if (BoardMap[0, 2] != 0 && BoardMap[0, 2] == BoardMap[1, 1] && BoardMap[0, 2] == BoardMap[2, 0])
-            {
-                BoardGraphics.AddRange(GetVictoryLinePoints(0, 3));
+                BoardGraphics.AddRange(GetVictoryLinePoints(0, VictoryOrientation.DiagonalTopToBottom));
                 return true;
             }
 
-            bool e = true;
-            // Detects a draw
-            for (int i = 0; i <= 2; i++) for (int j = 0; j <= 2; j++) if (BoardMap[i, j] == 0) e = false;
+            // Check for a diagonal victory (bottom to top)
+            else if (BoardMap[0, 2] != 0 && BoardMap[0, 2] == BoardMap[1, 1] && BoardMap[0, 2] == BoardMap[2, 0])
+            {
+                BoardGraphics.AddRange(GetVictoryLinePoints(0, VictoryOrientation.DiagonalBottomToTop));
+                return true;
+            }
+
+            bool isDraw = true;
+
+            // Check if there are any open spaces. If there are none, the game has reached a draw.
+            for (int i = 0; i <= 2; i++)
+            {
+                for (int j = 0; j <= 2; j++)
+                {
+                    if (BoardMap[i, j] == PlayerMarker.None) isDraw = false;
+                }
+            }
             
-            // If it reaches this, there is a draw
-            return e;
+            return isDraw;
         }
 
         /// <summary>

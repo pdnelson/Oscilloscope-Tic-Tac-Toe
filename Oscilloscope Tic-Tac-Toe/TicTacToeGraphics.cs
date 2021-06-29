@@ -127,21 +127,17 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// <param name="position">The position the victory line is in.</param>
         /// <param name="orientation">The orientation the victory line is in.</param>
         /// <returns></returns>
-        public List<Point> GetVictoryLinePoints(int position, int orientation)
+        public List<Point> GetVictoryLinePoints(int position, VictoryOrientation orientation)
         {
             List<Point> points = new List<Point>(); 
 
-            // Vertical
-            if (orientation == 0) for (int i = -50; i < 50; i++) points.Add(new Point((position * 30) - 30, i));
+            if (orientation == VictoryOrientation.Vertical) for (int i = -50; i < 50; i++) points.Add(new Point((position * 30) - 30, i));
 
-            // Horizontal
-            else if (orientation == 1) for (int i = -50; i < 50; i++) points.Add(new Point(i, (position * 30) - 30));
+            else if (orientation == VictoryOrientation.Horizontal) for (int i = -50; i < 50; i++) points.Add(new Point(i, (position * 30) - 30));
                 
-            // Diagonal Bottom to Top
-            else if (orientation == 3) for (int i = -50; i < 50; i++) points.Add(new Point( -1 * i, i));
+            else if (orientation == VictoryOrientation.DiagonalBottomToTop) for (int i = -50; i < 50; i++) points.Add(new Point( -1 * i, i));
 
-            // Diagonal Top to Bottom
-            else if (orientation == 2) for (int i = -50; i < 50; i++) points.Add(new Point(i, i));
+            else if (orientation == VictoryOrientation.DiagonalTopToBottom) for (int i = -50; i < 50; i++) points.Add(new Point(i, i));
 
             return points;
         }
