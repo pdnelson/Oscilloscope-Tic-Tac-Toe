@@ -90,6 +90,7 @@ namespace Oscilloscope_Tic_Tac_Toe
         private void ResetGame()
         {
             BoardGraphics.Clear();
+            PlayerGraphics.Clear();
             BoardGraphics.AddRange(GetEmptyBoardPoints());
             PlayerTurn = PlayerMarker.PlayerX;
             PlayerPosition = new Point(1, 1);
