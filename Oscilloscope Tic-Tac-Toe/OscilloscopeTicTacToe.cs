@@ -25,21 +25,22 @@ namespace Oscilloscope_Tic_Tac_Toe
             ResetGame();
         }
 
-        public bool playerMove(KeyEventArgs e)
+        public bool playerMove(Keys keyPress)
         {
-            PlayerGraphics.Clear();
-            if (e.KeyCode != Keys.R && !gameEnded)
+            if (keyPress == Keys.R) ResetGame();
+            else if (!gameEnded)
             {
+                PlayerGraphics.Clear();
 
                 // sets offset position according to user's input
-                if (e.KeyCode == Keys.Down && PlayerPosition.Y - 30 > -31) PlayerPosition.Y -= 30;
-                else if (e.KeyCode == Keys.Up && PlayerPosition.Y + 30 < 31) PlayerPosition.Y += 30;
-                else if (e.KeyCode == Keys.Left && PlayerPosition.X - 30 > -34) PlayerPosition.X -= 30;
-                else if (e.KeyCode == Keys.Right && PlayerPosition.X + 30 < 34) PlayerPosition.X += 30;
+                if (keyPress == Keys.Down && PlayerPosition.Y - 30 > -31) PlayerPosition.Y -= 30;
+                else if (keyPress == Keys.Up && PlayerPosition.Y + 30 < 31) PlayerPosition.Y += 30;
+                else if (keyPress == Keys.Left && PlayerPosition.X - 30 > -34) PlayerPosition.X -= 30;
+                else if (keyPress == Keys.Right && PlayerPosition.X + 30 < 34) PlayerPosition.X += 30;
 
 
                 // Place the player's piece on the board if another is not already there
-                else if (e.KeyCode == Keys.Space && BoardMap[(PlayerPosition.X + 30) / 30, (PlayerPosition.Y + 30) / 30] == PlayerMarker.None)
+                else if (keyPress == Keys.Space && BoardMap[(PlayerPosition.X + 30) / 30, (PlayerPosition.Y + 30) / 30] == PlayerMarker.None)
                 {
                     // adds the player's piece to the board
                     BoardGraphics.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, false));
@@ -71,7 +72,6 @@ namespace Oscilloscope_Tic_Tac_Toe
                 // gives the player their new coordinates
                 if (!gameEnded) PlayerGraphics.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, true)); // character's piece
             }
-            else if (e.KeyCode == Keys.R) ResetGame();
 
             return true;
         }
