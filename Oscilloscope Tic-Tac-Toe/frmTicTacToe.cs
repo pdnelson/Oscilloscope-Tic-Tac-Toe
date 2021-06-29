@@ -33,7 +33,6 @@ namespace Oscilloscope_Tic_Tac_Toe
 
         private void frmTicTacToe_KeyDown(object sender, KeyEventArgs e)
         {
-            // Updates the board to match player's movement
             if (TicTacToeGame.SendKeyCommand(e.KeyCode)) {
                 WavePlayer.BuildAndPlayWaveAsync(TicTacToeGame.GetCurrentGameGraphics());
             }

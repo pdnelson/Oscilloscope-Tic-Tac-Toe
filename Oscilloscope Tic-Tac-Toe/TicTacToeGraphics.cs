@@ -45,7 +45,7 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// <summary>
         /// Returns X character based on offset
         /// </summary>
-        public List<Point> GetXPoints(int scopePositionX, int scopePositionY)
+        private List<Point> GetXPoints(int scopePositionX, int scopePositionY)
         {
             List<Point> points = new List<Point>();
             // x
@@ -63,13 +63,15 @@ namespace Oscilloscope_Tic_Tac_Toe
             points.Add(new Point(scopePositionX, scopePositionY));
             points.Add(new Point(scopePositionX, scopePositionY));
 
+            TraceToOrigin(points);
+
             return points;
         }
 
         /// <summary>
         /// Returns O character based on offset
         /// </summary>
-        public List<Point> GetOPoints(int scopePositionX, int scopePositionY)
+        private List<Point> GetOPoints(int scopePositionX, int scopePositionY)
         {
             List<Point> points = new List<Point>();
 
@@ -82,7 +84,7 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// <summary>
         /// Returns square based on offset. This is used to indicate a piece that the player is currently moving.
         /// </summary>
-        public List<Point> GetSquarePoints(int scopePositionX, int scopePositionY)
+        private List<Point> GetSquarePoints(int scopePositionX, int scopePositionY)
         {
             List<Point> points = new List<Point>();
 
@@ -140,6 +142,17 @@ namespace Oscilloscope_Tic_Tac_Toe
             else if (orientation == VictoryOrientation.DiagonalTopToBottom) for (int i = -50; i < 50; i++) points.Add(new Point(i, i));
 
             return points;
+        }
+
+        /// <summary>
+        /// Traces a point list back to its origin.
+        /// </summary>
+        private void TraceToOrigin(List<Point> p)
+        {
+            for (int i = p.Count - 1; i > -1; i--)
+            {
+                p.Add(new Point(p[i].X, p[i].Y));
+            }
         }
     }
 }

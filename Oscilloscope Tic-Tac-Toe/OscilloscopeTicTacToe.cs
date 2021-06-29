@@ -29,7 +29,7 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// Interprets keyboard commands into player movements, or a game reset.
         /// </summary>
         /// <param name="keyPress">The key the user pressed.</param>
-        /// <returns>true if the move was successful; false otherwise</returns>
+        /// <returns>true if the display needs updated; false otherwise</returns>
         public bool SendKeyCommand(Keys keyPress)
         {
             if (keyPress == Keys.R) ResetGame();
@@ -128,13 +128,15 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// <returns>true if the game has ended; false otherwise</returns>
         private bool CheckGameStatus()
         {
+            bool gameIsFinished = false;
+
             // Check all rows for a vertical victory
             for (int c = 0; c <= 2; c++)
             {
                 if (BoardMap[c,0] != 0 && BoardMap[c, 0] == BoardMap[c, 1] && BoardMap[c, 0] == BoardMap[c, 2])
                 {
                     BoardGraphics.AddRange(GetVictoryLinePoints(c, VictoryOrientation.Vertical));
-                    return true;
+                    gameIsFinished = true; ;
                 }
             }
 
@@ -144,7 +146,7 @@ namespace Oscilloscope_Tic_Tac_Toe
                 if (BoardMap[0, r] != 0 && BoardMap[0, r] == BoardMap[1, r] && BoardMap[0, r] == BoardMap[2, r])
                 {
                     BoardGraphics.AddRange(GetVictoryLinePoints(r, VictoryOrientation.Horizontal));
-                    return true;
+                    gameIsFinished = true;
                 }
             }
 
@@ -152,28 +154,34 @@ namespace Oscilloscope_Tic_Tac_Toe
             if (BoardMap[0, 0] != 0 && BoardMap[0, 0] == BoardMap[1, 1] && BoardMap[0, 0] == BoardMap[2, 2])
             {
                 BoardGraphics.AddRange(GetVictoryLinePoints(0, VictoryOrientation.DiagonalTopToBottom));
-                return true;
+                gameIsFinished = true;
             }
 
             // Check for a diagonal victory (bottom to top)
-            else if (BoardMap[0, 2] != 0 && BoardMap[0, 2] == BoardMap[1, 1] && BoardMap[0, 2] == BoardMap[2, 0])
+            if (BoardMap[0, 2] != 0 && BoardMap[0, 2] == BoardMap[1, 1] && BoardMap[0, 2] == BoardMap[2, 0])
             {
                 BoardGraphics.AddRange(GetVictoryLinePoints(0, VictoryOrientation.DiagonalBottomToTop));
-                return true;
+                gameIsFinished = true;
             }
 
-            bool isDraw = true;
+            bool allSpacesFilled = true;
 
-            // Check if there are any open spaces. If there are none, the game has reached a draw.
+            // Check if there are any open spaces
             for (int i = 0; i <= 2; i++)
             {
                 for (int j = 0; j <= 2; j++)
                 {
-                    if (BoardMap[i, j] == PlayerMarker.None) isDraw = false;
+                    if (BoardMap[i, j] == PlayerMarker.None) allSpacesFilled = false;
                 }
             }
+
+            // The match has reached a draw
+            if(!gameIsFinished && allSpacesFilled)
+            {
+                gameIsFinished = true;
+            }
             
-            return isDraw;
+            return gameIsFinished;
         }
 
         /// <summary>
