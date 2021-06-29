@@ -14,13 +14,13 @@ namespace Oscilloscope_Tic_Tac_Toe
 {
     public partial class frmTicTacToe : Form
     {
-        TicTacToe TicTacToeGame;
+        OscilloscopeTicTacToe TicTacToeGame;
         OscilloscopeWavePlayer WavePlayer;
 
         public frmTicTacToe()
         {
             InitializeComponent();
-            TicTacToeGame = new TicTacToe();
+            TicTacToeGame = new OscilloscopeTicTacToe();
             WavePlayer = new OscilloscopeWavePlayer();
             WavePlayer.ImageAmplificationX = 500;
             WavePlayer.ImageAmplificationY = 500;
@@ -28,27 +28,17 @@ namespace Oscilloscope_Tic_Tac_Toe
 
         private void frmTicTacToe_Load(object sender, EventArgs e)
         {
-            List<Point> totalPoints = new List<Point>();
-            totalPoints.AddRange(TicTacToeGame.board);
-            totalPoints.AddRange(TicTacToeGame.player);
-
-            WavePlayer.BuildAndPlayWaveAsync(totalPoints);
+            WavePlayer.BuildAndPlayWaveAsync(TicTacToeGame.GetCurrentGameGraphics());
         }
 
         private void frmTicTacToe_KeyDown(object sender, KeyEventArgs e)
         {
-
             // Doesn't let the user enter anything else if the game has ended, unless it is the reset function
             if (!TicTacToeGame.gameEnded || e.KeyCode == Keys.R)
             {
                 // Updates the board to match player's movement
-                if (TicTacToeGame.playerMove(e))
-                {
-                    List<Point> totalPoints = new List<Point>();
-                    totalPoints.AddRange(TicTacToeGame.board);
-                    totalPoints.AddRange(TicTacToeGame.player);
-
-                    WavePlayer.BuildAndPlayWaveAsync(totalPoints);
+                if (TicTacToeGame.playerMove(e)) {
+                    WavePlayer.BuildAndPlayWaveAsync(TicTacToeGame.GetCurrentGameGraphics());
                 }
             }
         }

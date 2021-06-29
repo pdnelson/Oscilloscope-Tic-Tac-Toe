@@ -8,26 +8,26 @@ using System.Windows.Forms;
 
 namespace Oscilloscope_Tic_Tac_Toe
 {
-    class TicTacToe : TicTacToeGraphics
+    class OscilloscopeTicTacToe : TicTacToeGraphics
     {
-        public List<Point> board { get; set; }
-        public List<Point> player { get; set; }
         public bool gameEnded { get; set; }
+        private List<Point> BoardGraphics;
+        private List<Point> PlayerGraphics;
         private PlayerMarker[,] BoardMap;
         private Point PlayerPosition;
         private PlayerMarker PlayerTurn;
 
-        public TicTacToe()
+        public OscilloscopeTicTacToe()
         {
             BoardMap = new PlayerMarker[3, 3];
-            board = new List<Point>();
-            player = new List<Point>();
+            BoardGraphics = new List<Point>();
+            PlayerGraphics = new List<Point>();
             ResetGame();
         }
 
         public bool playerMove(KeyEventArgs e)
         {
-            player.Clear();
+            PlayerGraphics.Clear();
             if (e.KeyCode != Keys.R && !gameEnded)
             {
 
@@ -42,9 +42,9 @@ namespace Oscilloscope_Tic_Tac_Toe
                 else if (e.KeyCode == Keys.Space && BoardMap[(PlayerPosition.X + 30) / 30, (PlayerPosition.Y + 30) / 30] == PlayerMarker.None)
                 {
                     // adds the player's piece to the board
-                    board.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, false));
+                    BoardGraphics.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, false));
 
-                    player.Clear();
+                    PlayerGraphics.Clear();
 
                     BoardMap[(PlayerPosition.X + 30) / 30, (PlayerPosition.Y + 30) / 30] = PlayerTurn;
 
@@ -60,7 +60,7 @@ namespace Oscilloscope_Tic_Tac_Toe
                         ChangePlayerTurns();
 
                         // sets the next player's piece in the middle
-                        player.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, true));
+                        PlayerGraphics.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, true));
                     }
                 }
                 else
@@ -69,7 +69,7 @@ namespace Oscilloscope_Tic_Tac_Toe
                 }
 
                 // gives the player their new coordinates
-                if (!gameEnded) player.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, true)); // character's piece
+                if (!gameEnded) PlayerGraphics.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, true)); // character's piece
             }
             else if (e.KeyCode == Keys.R) ResetGame();
 
@@ -78,11 +78,11 @@ namespace Oscilloscope_Tic_Tac_Toe
 
         public void ResetGame()
         {
-            board.Clear();
-            board.AddRange(GetEmptyBoardPoints());
+            BoardGraphics.Clear();
+            BoardGraphics.AddRange(GetEmptyBoardPoints());
             PlayerTurn = PlayerMarker.PlayerX;
             PlayerPosition = new Point(0, 0);
-            player.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, true));
+            PlayerGraphics.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, true));
 
             // Set board array to all zeroes
             for (int i = 0; i < 3; i++)
@@ -117,7 +117,7 @@ namespace Oscilloscope_Tic_Tac_Toe
                 if (BoardMap[c,0] != 0 && BoardMap[c, 0] == BoardMap[c, 1] && BoardMap[c, 0] == BoardMap[c, 2])
                 {
                     // Adds the victory line to the board display
-                    board.AddRange(GetVictoryLinePoints(c, 0));
+                    BoardGraphics.AddRange(GetVictoryLinePoints(c, 0));
                     return true;
                 }
             }
@@ -128,7 +128,7 @@ namespace Oscilloscope_Tic_Tac_Toe
                 if (BoardMap[0, r] != 0 && BoardMap[0, r] == BoardMap[1, r] && BoardMap[0, r] == BoardMap[2, r])
                 {
                     // Adds the victory line to the board display
-                    board.AddRange(GetVictoryLinePoints(r, 1));
+                    BoardGraphics.AddRange(GetVictoryLinePoints(r, 1));
                     return true;
                 }
             }
@@ -136,12 +136,12 @@ namespace Oscilloscope_Tic_Tac_Toe
             // Detects a diagonal victory
             if (BoardMap[0, 0] != 0 && BoardMap[0, 0] == BoardMap[1, 1] && BoardMap[0, 0] == BoardMap[2, 2])
             {
-                board.AddRange(GetVictoryLinePoints(0, 2));
+                BoardGraphics.AddRange(GetVictoryLinePoints(0, 2));
                 return true;
             }
             else if (BoardMap[0, 2] != 0 && BoardMap[0, 2] == BoardMap[1, 1] && BoardMap[0, 2] == BoardMap[2, 0])
             {
-                board.AddRange(GetVictoryLinePoints(0, 3));
+                BoardGraphics.AddRange(GetVictoryLinePoints(0, 3));
                 return true;
             }
 
@@ -151,6 +151,14 @@ namespace Oscilloscope_Tic_Tac_Toe
             
             // If it reaches this, there is a draw
             return e;
+        }
+
+        public List<Point> GetCurrentGameGraphics()
+        {
+            List<Point> currBoard = new List<Point>();
+            currBoard.AddRange(BoardGraphics);
+            currBoard.AddRange(PlayerGraphics);
+            return currBoard;
         }
     }
 }
