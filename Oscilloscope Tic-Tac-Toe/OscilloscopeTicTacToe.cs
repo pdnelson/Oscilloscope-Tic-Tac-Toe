@@ -167,6 +167,10 @@ namespace Oscilloscope_Tic_Tac_Toe
             return e;
         }
 
+        /// <summary>
+        /// Consolidates the game's graphics to be displayed on the oscilloscope.
+        /// </summary>
+        /// <returns>Game graphics to be displayed on the oscilloscope.</returns>
         public List<Point> GetCurrentGameGraphics()
         {
             List<Point> currBoard = new List<Point>();
