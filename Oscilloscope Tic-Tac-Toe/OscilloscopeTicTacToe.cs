@@ -37,7 +37,7 @@ namespace Oscilloscope_Tic_Tac_Toe
             {
                 PlayerGraphics.Clear();
 
-                // Validate that the user's movement is within the bounds of the board
+                // Validate that the user's movement is within the bounds of the board, then move the player's marker
                 if      (keyPress == Keys.Down  && PlayerPosition.Y - 1 >= 0)   PlayerPosition.Y -= 1;
                 else if (keyPress == Keys.Up    && PlayerPosition.Y + 1 <= 2)   PlayerPosition.Y += 1;
                 else if (keyPress == Keys.Left  && PlayerPosition.X - 1 >= 0)   PlayerPosition.X -= 1;
