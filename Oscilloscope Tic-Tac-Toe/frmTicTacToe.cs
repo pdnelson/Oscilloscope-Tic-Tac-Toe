@@ -37,7 +37,7 @@ namespace Oscilloscope_Tic_Tac_Toe
             if (!TicTacToeGame.gameEnded || e.KeyCode == Keys.R)
             {
                 // Updates the board to match player's movement
-                if (TicTacToeGame.playerMove(e.KeyCode)) {
+                if (TicTacToeGame.SendKeyCommand(e.KeyCode)) {
                     WavePlayer.BuildAndPlayWaveAsync(TicTacToeGame.GetCurrentGameGraphics());
                 }
             }

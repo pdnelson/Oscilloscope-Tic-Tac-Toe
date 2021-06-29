@@ -25,7 +25,12 @@ namespace Oscilloscope_Tic_Tac_Toe
             ResetGame();
         }
 
-        public bool playerMove(Keys keyPress)
+        /// <summary>
+        /// Interprets keyboard commands into player movements, or a game reset.
+        /// </summary>
+        /// <param name="keyPress">The key the user pressed.</param>
+        /// <returns>true if the move was successful; false otherwise</returns>
+        public bool SendKeyCommand(Keys keyPress)
         {
             if (keyPress == Keys.R) ResetGame();
             else if (!gameEnded)
@@ -50,7 +55,7 @@ namespace Oscilloscope_Tic_Tac_Toe
                     BoardMap[(PlayerPosition.X + 30) / 30, (PlayerPosition.Y + 30) / 30] = PlayerTurn;
 
                     // checks that the game has ended
-                    gameEnded = checkGameEnd();
+                    gameEnded = CheckGameStatus();
 
                     if (!gameEnded)
                     {
@@ -76,7 +81,10 @@ namespace Oscilloscope_Tic_Tac_Toe
             return true;
         }
 
-        public void ResetGame()
+        /// <summary>
+        /// Resets the game, setting all fields back to their default values.
+        /// </summary>
+        private void ResetGame()
         {
             BoardGraphics.Clear();
             BoardGraphics.AddRange(GetEmptyBoardPoints());
@@ -96,6 +104,9 @@ namespace Oscilloscope_Tic_Tac_Toe
             gameEnded = false;
         }
 
+        /// <summary>
+        /// Changes which player is currently active.
+        /// </summary>
         private void ChangePlayerTurns()
         {
             if (PlayerTurn == PlayerMarker.PlayerX) 
@@ -108,8 +119,11 @@ namespace Oscilloscope_Tic_Tac_Toe
             }
         }
 
-        // CHECK END OF GAME
-        public bool checkGameEnd()
+        /// <summary>
+        /// Checks that the game has ended, and adds a victory line on the board if a victory is detected.
+        /// </summary>
+        /// <returns>true if the game has ended; false otherwise</returns>
+        private bool CheckGameStatus()
         {
             // Detects a victory in any columns
             for (int c = 0; c <= 2; c++)
