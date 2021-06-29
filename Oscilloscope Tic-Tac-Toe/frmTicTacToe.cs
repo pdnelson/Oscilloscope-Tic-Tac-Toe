@@ -33,13 +33,9 @@ namespace Oscilloscope_Tic_Tac_Toe
 
         private void frmTicTacToe_KeyDown(object sender, KeyEventArgs e)
         {
-            // Doesn't let the user enter anything else if the game has ended, unless it is the reset function
-            if (!TicTacToeGame.gameEnded || e.KeyCode == Keys.R)
-            {
-                // Updates the board to match player's movement
-                if (TicTacToeGame.SendKeyCommand(e.KeyCode)) {
-                    WavePlayer.BuildAndPlayWaveAsync(TicTacToeGame.GetCurrentGameGraphics());
-                }
+            // Updates the board to match player's movement
+            if (TicTacToeGame.SendKeyCommand(e.KeyCode)) {
+                WavePlayer.BuildAndPlayWaveAsync(TicTacToeGame.GetCurrentGameGraphics());
             }
         }
     }

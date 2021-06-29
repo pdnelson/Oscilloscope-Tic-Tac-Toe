@@ -10,10 +10,10 @@ namespace Oscilloscope_Tic_Tac_Toe
 {
     class OscilloscopeTicTacToe : TicTacToeGraphics
     {
-        public bool gameEnded { get; set; }
+        private bool GameEnded;
+        private PlayerMarker[,] BoardMap;
         private List<Point> BoardGraphics;
         private List<Point> PlayerGraphics;
-        private PlayerMarker[,] BoardMap;
         private Point PlayerPosition;
         private PlayerMarker PlayerTurn;
 
@@ -33,7 +33,7 @@ namespace Oscilloscope_Tic_Tac_Toe
         public bool SendKeyCommand(Keys keyPress)
         {
             if (keyPress == Keys.R) ResetGame();
-            else if (!gameEnded)
+            else if (!GameEnded)
             {
                 PlayerGraphics.Clear();
 
@@ -54,9 +54,9 @@ namespace Oscilloscope_Tic_Tac_Toe
                     BoardMap[PlayerPosition.X, PlayerPosition.Y] = PlayerTurn;
 
                     // checks that the game has ended
-                    gameEnded = CheckGameStatus();
+                    GameEnded = CheckGameStatus();
 
-                    if (!gameEnded)
+                    if (!GameEnded)
                     {
                         // start next player's move in the middle of the screen
                         PlayerPosition = new Point(1, 1);
@@ -74,7 +74,11 @@ namespace Oscilloscope_Tic_Tac_Toe
                 }
 
                 // gives the player their new coordinates
-                if (!gameEnded) PlayerGraphics.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, true)); // character's piece
+                if (!GameEnded) PlayerGraphics.AddRange(GetPlayerPiece(PlayerTurn, PlayerPosition, true)); // character's piece
+            }
+            else
+            {
+                return false; // The game has ended and the player can no longer move
             }
 
             return true;
@@ -100,7 +104,7 @@ namespace Oscilloscope_Tic_Tac_Toe
                 }
             }
 
-            gameEnded = false;
+            GameEnded = false;
         }
 
         /// <summary>
