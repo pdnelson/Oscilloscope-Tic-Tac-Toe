@@ -14,6 +14,7 @@ namespace Oscilloscope_Tic_Tac_Toe
         private MemoryStream MS;
         private BinaryWriter BW;
         private Thread PlayWaveThread;
+        private object WavePlayLock = new object();
         public bool IsPlaying { get; set; }
         public int ImageAmplificationX { get; set; }
         public int ImageAmplificationY { get; set; }
@@ -84,7 +85,6 @@ namespace Oscilloscope_Tic_Tac_Toe
             // Prepare Wave to be played
             BW.Flush();
             MS.Seek(0, SeekOrigin.Begin);
-
         }
 
         /// <summary>
@@ -101,21 +101,20 @@ namespace Oscilloscope_Tic_Tac_Toe
         }
 
         /// <summary>
-        /// Plays the built wave  in a separate thread from the main one.
+        /// Plays the built wave in a separate thread from the main one.
         /// </summary>
         public void PlayWaveAsync()
         {
-            if(PlayWaveThread.IsAlive)
+            if(Monitor.TryEnter(WavePlayLock))
             {
-                throw new InvalidOperationException("Cannot play wave async while another wave is playing async.");
+                PlayWaveThread = new Thread(() =>
+                {
+                    PlayWave();
+                });
+
+                PlayWaveThread.Start();
+                Monitor.Exit(WavePlayLock);
             }
-
-            PlayWaveThread = new Thread(() =>
-            {
-                PlayWave();
-            });
-
-            PlayWaveThread.Start();
         }
 
         /// <summary>
@@ -125,16 +124,18 @@ namespace Oscilloscope_Tic_Tac_Toe
         /// <param name="points">The points to be turned into a wave file.</param>
         public void BuildAndPlayWaveAsync(List<Point> points)
         {
-            if(IsPlaying) StopWave();
-            Dispose();
-
-            PlayWaveThread = new Thread(() =>
+            if (Monitor.TryEnter(WavePlayLock))
             {
-                BuildWave(points);
-                PlayWave();
-            });
+                PlayWaveThread = new Thread(() =>
+                {
+                    Dispose();
+                    BuildWave(points);
+                    PlayWave();
+                });
 
-            PlayWaveThread.Start();
+                PlayWaveThread.Start();
+                Monitor.Exit(WavePlayLock);
+            }
         }
 
         /// <summary>

@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
-using System.Media;
+using System.Threading;
 
 namespace Oscilloscope_Tic_Tac_Toe
 {
@@ -34,8 +26,10 @@ namespace Oscilloscope_Tic_Tac_Toe
         private void frmTicTacToe_KeyDown(object sender, KeyEventArgs e)
         {
             if (TicTacToeGame.SendKeyCommand(e.KeyCode)) {
+                WavePlayer.StopWave();
                 WavePlayer.BuildAndPlayWaveAsync(TicTacToeGame.GetCurrentGameGraphics());
             }
+            Thread.Sleep(20);
         }
     }
 }
